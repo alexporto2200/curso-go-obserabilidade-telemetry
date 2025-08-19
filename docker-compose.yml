@@ -1,0 +1,38 @@
+
+
+services:
+  service-a:
+    build: ./service-a
+    ports:
+      - "8080:8080"
+    depends_on:
+      - service-b
+      - zipkin
+    environment:
+      - OTEL_EXPORTER_ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+    networks:
+      - app-network
+
+  service-b:
+    build: ./service-b
+    env_file:
+      - .env
+    ports:
+      - "8081:8081"
+    depends_on:
+      - zipkin
+    environment:
+      - OTEL_EXPORTER_ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+    networks:
+      - app-network
+
+  zipkin:
+    image: openzipkin/zipkin:latest
+    ports:
+      - "9411:9411"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
