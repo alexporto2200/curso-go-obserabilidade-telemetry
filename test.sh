@@ -1,11 +1,12 @@
 #!/bin/bash
 
 
+
 # Teste 1: CEP válido
-echo "1. Testando CEP válido (29902555):"
+echo "1. Testando CEP válido (85650000):"
 curl -X POST http://localhost:8080/cep \
   -H "Content-Type: application/json" \
-  -d '{"cep": "29902555"}' \
+  -d '{"cep": "85650000"}' \
   -w "\nHTTP Status: %{http_code}\n"
 echo
 
